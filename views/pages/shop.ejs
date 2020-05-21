@@ -1,0 +1,475 @@
+<%- include('../partials/header.ejs') -%>
+<section class="banner-section" style="background-image:url(/assets/img/banner.png);">
+    <div class="container">
+       <div class="banner-inner text-center">
+          <h2 class="page-title">Shop</h2>
+          <nav aria-label="breadcrumb">
+             <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Shop</li>
+             </ol>
+          </nav>
+       </div>
+    </div>
+ </section>
+ <section class="shop-page mt-120 rmt-80 mb-90 rmb-50">
+    <div class="container">
+       <div class="row">
+          <div class="col-xl-3 col-lg-4">
+             <div class="shop-sidebar">
+                <div class="shop-widget b1">
+                   <div class="shop-widget-title">
+                      <h5><i class="flaticon-list"></i>Categories</h5>
+                   </div>
+                   <ul>
+                    <%if(listCategory.length){%>
+                    <%listCategory.forEach(item => {%>
+                            <li><a href="/customers/danh-sach-san-pham?id=<%=item._id%>"  value="<%=item._id%>"><i class="flaticon-apple "></i> <%=item.title%></a>
+                            </li>
+                        <%})%>
+                    <%}%>
+                   </ul>
+                </div>
+                <div class="shop-widget b1">
+                   <div class="shop-widget-title">
+                      <h5>Best Sale Today</h5>
+                   </div>
+                   <%if(listProduct && listProduct.length){%>
+                       <%for(let i = 0; i < 3; i++) {%>
+                        <div class="product list-product d-flex align-items-center bg-white br-5 mb-30">
+                            <div class="product-img-wrap">
+                               <img src="/assets/img/shop/cart-1.png" alt="img">
+                            </div>
+                            <div class="product-content-wrap">
+                               <div class="product-content">
+                                  <p><a href="shop-details.html"><%= listProduct[i].title %> <br>(1kg)</a>
+                                  </p>
+                               </div>
+                               <div class="product-action">
+                                  <a href="#" class="add-to-btn small-btn">
+                                     <i class="flaticon-shopping-cart"></i>
+                                     <span>Add to Cart</span>
+                                     <h5 class="product-price">$120.00</h5>
+                                  </a>
+                               </div>
+                            </div>
+                         </div>
+                       <%}%>
+                       <%}%>
+                   
+                   <div class="product list-product d-flex align-items-center bg-white br-5 mb-30">
+                      <div class="product-img-wrap">
+                         <img src="/assets/img/shop/cart-2.png" alt="img">
+                      </div>
+                      <div class="product-content-wrap">
+                         <div class="product-content">
+                            <p><a href="shop-details.html">Organic Yellow Papaya (1ps)</a></p>
+                         </div>
+                         <div class="product-action">
+                            <a href="#" class="add-to-btn small-btn">
+                               <i class="flaticon-shopping-cart"></i>
+                               <span>Add to Cart</span>
+                               <h5 class="product-price">$120.00</h5>
+                            </a>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="product list-product d-flex align-items-center bg-white br-5 mb-30">
+                      <div class="product-img-wrap">
+                         <img src="/assets/img/shop/cart-3.png" alt="img">
+                      </div>
+                      <div class="product-content-wrap">
+                         <div class="product-content">
+                            <p><a href="shop-details.html">Granny Smith Apple (4ps)</a></p>
+                         </div>
+                         <div class="product-action">
+                            <a href="#" class="add-to-btn small-btn">
+                               <i class="flaticon-shopping-cart"></i>
+                               <span>Add to Cart</span>
+                               <h5 class="product-price">$120.00</h5>
+                            </a>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="col-xl-9 col-lg-8">
+             <div class="shop-items">
+                <div class="search-result-header">
+                    
+                   <h5>Showing Result <%if(infoCategory && infoCategory.products.length){%>
+                     <%= infoCategory.products.length %>
+                     <%}else{%>
+                        <%=listProduct.length %>
+                     <%}%> of <%=listProduct.length %> Product</h5>
+                   <div class="sort-by">
+                      <h5>Sort:</h5>
+                      <select name="#">
+                         <option value="value-1">ALL</option>
+                         <option value="value-2">By Name</option>
+                      </select>
+                   </div>
+                </div>
+                <div class="row">
+                    <%if(infoCategory && infoCategory.products.length){%>
+                        <% infoCategory.products.forEach(item => {%>
+                            <div class="col-xl-4 col-lg-6 col-sm-6">
+                                <div class="product">
+                                   <div class="product-img-wrap">
+                                      <img src="/assets/img/product/product20.png" alt="img">
+                                      <button  id="quickViews" class="quick-view btnQuickView" _categoryID="<%= infoCategory._id %>" _productID = "<%=item._id%>" type="button" data-toggle="modal" data-target="#quick-view">Quick View</button>
+                                   </div>
+                                   <div class="product-content-wrap">
+                                      <div class="product-content">
+                                         <p><a href="shop-details.html"><%= item.title %><br>(1 kg)</a></p>
+                                      </div>
+                                      <div class="product-action">
+                                         <a href="#" class="add-to-btn small-btn">
+                                            <i class="flaticon-shopping-cart"></i>
+                                            <span>Add to Cart</span>
+                                            <h5 class="product-price"><%= item.salePrice %></h5>
+                                         </a>
+                                         <div class="add-wishlist">
+                                            <i class="fa fa-heart-o"></i>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                            <%})%>
+                    <%}else{%>
+                     <%listProduct.forEach(item => {%>
+                           <div class="col-xl-4 col-lg-6 col-sm-6">
+                              <div class="product">
+                                 <div class="product-img-wrap">
+                                    <img src="/assets/img/product/product20.png" alt="img">
+                                    <button  id="quickViews" class="quick-view btnQuickView" _productID = "<%=item._id%>" type="button" data-toggle="modal" data-target="#quick-view">Quick View</button>
+                                 </div>
+                                 <div class="product-content-wrap">
+                                    <div class="product-content">
+                                       <p><a href="shop-details.html"><%= item.title %><br>(1 kg)</a></p>
+                                    </div>
+                                    <div class="product-action">
+                                       <a href="#" class="add-to-btn small-btn">
+                                          <i class="flaticon-shopping-cart"></i>
+                                          <span>Add to Cart</span>
+                                          <h5 class="product-price"><%= item.salePrice %></h5>
+                                       </a>
+                                       <div class="add-wishlist">
+                                          <i class="fa fa-heart-o"></i>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <%})%>
+                           <%}%>
+                   <div class="modal product-modal fade" id="quick-view" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                         <div class="modal-content">
+                            <div class="modal-header">
+                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                               </button>
+                            </div>
+                            <%if(infoProduct && infoProduct.length){%>
+                           <div class="modal-body p-35 pt-0">
+                              <div class="product-quick-view">
+                                 <div class="container">
+                                       <div class="row">
+                                          <div class="col-lg-6">
+                                             <div class="product-preview-wrap">
+                                                <div class="tab-content bg-white p-50 b1 br-5">
+                                                   <div class="tab-pane" id="preview1">
+                                                      <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+                                                   </div>
+                                                   <div class="tab-pane active" id="preview2">
+                                                      <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+                                                   </div>
+                                                   <div class="tab-pane" id="preview3">
+                                                      <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+                                                   </div>
+                                                   <div class="tab-pane" id="preview4">
+                                                      <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+                                                   </div>
+                                                </div>
+                                                <ul class="nav nav-tabs flex-nowrap align-content-between mt-30">
+                                                   <li>
+                                                      <a data-toggle="tab" href="#preview1">
+                                                      <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+                                                      </a>
+                                                   </li>
+                                                   <li>
+                                                      <a class="active" data-toggle="tab" href="#preview2">
+                                                      <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+                                                      </a>
+                                                   </li>
+                                                   <li>
+                                                      <a data-toggle="tab" href="#preview3">
+                                                      <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+                                                      </a>
+                                                   </li>
+                                                   <li>
+                                                      <a data-toggle="tab" href="#preview4">
+                                                      <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+                                                      </a>
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                          </div>
+                                          <div class="col-lg-6">
+                                             <div class="product-details text-left bg-white ml-25 px-50 py-45 b1 br-5">
+                                                <h3 class="mb-25 rmt-25"><%=infoProduct.title%>></h3>
+                                                <div class="rating mb-25">
+                                                   <div class="star mr-15">
+                                                      <i class="fa fa-star"></i>
+                                                      <i class="fa fa-star"></i>
+                                                      <i class="fa fa-star"></i>
+                                                      <i class="fa fa-star"></i>
+                                                      <i class="fa fa-star"></i>
+                                                   </div>
+                                                   <div class="text">(13 Review)</div>
+                                                </div>
+                                                <p>Sed egestas, ante et vulputate volutpat, eropede semper est, vitluctus metus libero eu augue. Morbi purus libero, faucibus adipiscing.</p>
+                                                <p>commodo quis, gravida id, est. Sed lectus. Praest elemhendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat.lacus a ultrices.</p>
+                                                <h6>Availability: <span>In Stock</span></h6>
+                                                <h4 class="price"><%= infoProduct.salePrice%>></h4>
+                                                <div class="product-spinner mt-20">
+                                                   <div class="number-input b1">
+                                                      <button class="minus"></button>
+                                                      <input min="1" name="quantity" value="2" type="number">
+                                                      <button class="plus"></button>
+                                                   </div>
+                                                   <a href="#" class="theme-btn br-30 ml-20">Add to Cart</a>
+                                                   <div class="add-wishlist">
+                                                      <i class="fa fa-heart-o"></i>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    <%}%>
+                                     
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+<%- include('../partials/footer.ejs') -%>
+<script>
+   $(document).on('click', '.btnQuickView', function(e){
+      e.preventDefault();
+      let productID = $('#quickViews').attr('_productID');
+      let categoryID = $('#quickViews').attr('_categoryID');
+      console.log({productID});
+      console.log({categoryID});
+      $.ajax({
+         url:`/customers/danh-sach-san-pham?id=${categoryID}`,
+         method:'GET',
+         data: {productID},
+         success: resp =>{
+            console.log({productID});
+            let resultArr = resp.data;
+            console.log(resultArr);
+            if(!resp.error){
+               $('#quick-view .modal-body').find('row').append(`
+                  <div class="col-lg-6">
+                     aaaa
+                  </div>
+               `)
+               alert('aaaa');
+               //                            <div class="col-lg-6">
+               //                               <div class="product-preview-wrap">
+               //                                  <div class="tab-content bg-white p-50 b1 br-5">
+               //                                     <div class="tab-pane" id="preview1">
+               //                                        <img src="/assets/img/product/product24.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+               //                                     </div>
+               //                                     <div class="tab-pane active" id="preview2">
+               //                                        <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+               //                                     </div>
+               //                                     <div class="tab-pane" id="preview3">
+               //                                        <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+               //                                     </div>
+               //                                     <div class="tab-pane" id="preview4">
+               //                                        <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+               //                                     </div>
+               //                                  </div>
+               //                                  <ul class="nav nav-tabs flex-nowrap align-content-between mt-30">
+               //                                     <li>
+               //                                        <a data-toggle="tab" href="#preview1">
+               //                                        <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+               //                                        </a>
+               //                                     </li>
+               //                                     <li>
+               //                                        <a class="active" data-toggle="tab" href="#preview2">
+               //                                        <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+               //                                        </a>
+               //                                     </li>
+               //                                     <li>
+               //                                        <a data-toggle="tab" href="#preview3">
+               //                                        <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+               //                                        </a>
+               //                                     </li>
+               //                                     <li>
+               //                                        <a data-toggle="tab" href="#preview4">
+               //                                        <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+               //                                        </a>
+               //                                     </li>
+               //                                  </ul>
+               //                               </div>
+               //                            </div>
+               //                            <div class="col-lg-6">
+               //                               <div class="product-details text-left bg-white ml-25 px-50 py-45 b1 br-5">
+               //                                  <h3 class="mb-25 rmt-25">Fresh Onion 1kg</h3>
+               //                                  <div class="rating mb-25">
+               //                                     <div class="star mr-15">
+               //                                        <i class="fa fa-star"></i>
+               //                                        <i class="fa fa-star"></i>
+               //                                        <i class="fa fa-star"></i>
+               //                                        <i class="fa fa-star"></i>
+               //                                        <i class="fa fa-star"></i>
+               //                                     </div>
+               //                                     <div class="text">(13 Review)</div>
+               //                                  </div>
+               //                                  <p>Sed egestas, ante et vulputate volutpat, eropede semper est, vitluctus metus libero eu augue. Morbi purus libero, faucibus adipiscing.</p>
+               //                                  <p>commodo quis, gravida id, est. Sed lectus. Praest elemhendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat.lacus a ultrices.</p>
+               //                                  <h6>Availability: <span>In Stock</span></h6>
+               //                                  <h4 class="price">$120.00</h4>
+               //                                  <div class="product-spinner mt-20">
+               //                                     <div class="number-input b1">
+               //                                        <button class="minus"></button>
+               //                                        <input min="1" name="quantity" value="2" type="number">
+               //                                        <button class="plus"></button>
+               //                                     </div>
+               //                                     <a href="#" class="theme-btn br-30 ml-20">Add to Cart</a>
+               //                                     <div class="add-wishlist">
+               //                                        <i class="fa fa-heart-o"></i>
+               //                                     </div>
+               //                                  </div>
+               //                            </div>
+               $('#quick-view .modal-body').modal('show');
+            }else{
+               alert('bbb');
+            }
+   //       $('#quick-view .modal-body').find('row').empty()
+   //          if(resultArr && resultArr.length){
+   //          resultArr.forEach(result => {
+   //             console.log(result);
+   //          //     $('#dataTable').find('tbody').append(`
+   //          //   <tr>
+   //          //       <td> ${result._id} </td>
+   //          //       <td> ${result.title} </td>
+   //          //       <td> ${result.description} </td>
+   //          //       <td> ${result.price} </td>
+   //          //       <td> ${result.category}
+   //          //       </td>
+   //          //       <td > <a href="/products/remove-product/${result._id}"><button class="btn btn-primary btnRemoveProduct" _productID = "${result._id}">Xóa</button></a></td>
+   //          //       <td > <a href="/update-category?id=${result._id}"><button class="btn btn-danger">Sữa</button></a></td>
+   //          //   </tr>
+   //          // `)
+   //             $('#quick-view .modal-body').find('row').append(`
+   //                                        <div class="col-lg-6">
+   //                                           <div class="product-preview-wrap">
+   //                                              <div class="tab-content bg-white p-50 b1 br-5">
+   //                                                 <div class="tab-pane" id="preview1">
+   //                                                    <img src="/assets/img/product/product24.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+   //                                                 </div>
+   //                                                 <div class="tab-pane active" id="preview2">
+   //                                                    <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+   //                                                 </div>
+   //                                                 <div class="tab-pane" id="preview3">
+   //                                                    <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+   //                                                 </div>
+   //                                                 <div class="tab-pane" id="preview4">
+   //                                                    <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+   //                                                 </div>
+   //                                              </div>
+   //                                              <ul class="nav nav-tabs flex-nowrap align-content-between mt-30">
+   //                                                 <li>
+   //                                                    <a data-toggle="tab" href="#preview1">
+   //                                                    <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+   //                                                    </a>
+   //                                                 </li>
+   //                                                 <li>
+   //                                                    <a class="active" data-toggle="tab" href="#preview2">
+   //                                                    <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+   //                                                    </a>
+   //                                                 </li>
+   //                                                 <li>
+   //                                                    <a data-toggle="tab" href="#preview3">
+   //                                                    <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+   //                                                    </a>
+   //                                                 </li>
+   //                                                 <li>
+   //                                                    <a data-toggle="tab" href="#preview4">
+   //                                                    <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+   //                                                    </a>
+   //                                                 </li>
+   //                                              </ul>
+   //                                           </div>
+   //                                        </div>
+   //                                        <div class="col-lg-6">
+   //                                           <div class="product-details text-left bg-white ml-25 px-50 py-45 b1 br-5">
+   //                                              <h3 class="mb-25 rmt-25">Fresh Onion 1kg</h3>
+   //                                              <div class="rating mb-25">
+   //                                                 <div class="star mr-15">
+   //                                                    <i class="fa fa-star"></i>
+   //                                                    <i class="fa fa-star"></i>
+   //                                                    <i class="fa fa-star"></i>
+   //                                                    <i class="fa fa-star"></i>
+   //                                                    <i class="fa fa-star"></i>
+   //                                                 </div>
+   //                                                 <div class="text">(13 Review)</div>
+   //                                              </div>
+   //                                              <p>Sed egestas, ante et vulputate volutpat, eropede semper est, vitluctus metus libero eu augue. Morbi purus libero, faucibus adipiscing.</p>
+   //                                              <p>commodo quis, gravida id, est. Sed lectus. Praest elemhendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat.lacus a ultrices.</p>
+   //                                              <h6>Availability: <span>In Stock</span></h6>
+   //                                              <h4 class="price">$120.00</h4>
+   //                                              <div class="product-spinner mt-20">
+   //                                                 <div class="number-input b1">
+   //                                                    <button class="minus"></button>
+   //                                                    <input min="1" name="quantity" value="2" type="number">
+   //                                                    <button class="plus"></button>
+   //                                                 </div>
+   //                                                 <a href="#" class="theme-btn br-30 ml-20">Add to Cart</a>
+   //                                                 <div class="add-wishlist">
+   //                                                    <i class="fa fa-heart-o"></i>
+   //                                                 </div>
+   //                                              </div>
+   //                                        </div>`)
+
+   //             $('#quick-view').modal('show');
+   //          })
+   //       }
+   //       //else{
+   //       //    $('#dataTable').find('tbody').empty()
+   //       //    $('#dataTable').find('tbody').append(`<h3>Khong tim thay</h3>`)
+         }
+      })
+   })
+   // $('.quick-btnQuickView').click(function(e){
+   //    e.preventDefault();
+
+   //    $.ajax({
+   //    url:`/danh-sach-san-pham`,
+   //    method:`GET`,
+   //    data:{
+   //    id:id
+   //    },
+   //    success:resp =>{
+         
+   //       var html_update=‘id:’+ data.id+‘name’ +data.name+‘price’+data.price
+   //       $(’#modal_update .modal-body’).append(html_update)
+   //       $(’#modal_update’).modal(‘show’)
+   //    }
+   //    })
+   // })
+</script>
