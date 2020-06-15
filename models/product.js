@@ -24,8 +24,8 @@ module.exports = class PRODUCT {
                 let { _id: productID } = infoCategoryAfterInsert;
 
                 let infoCategoryAfterUpdate = await CATEGORY_COLL.findByIdAndUpdate(category, {
-                $addToSet: {
-                    products: productID
+                    $addToSet: {
+                        products: productID
                 }
                 });
 
@@ -82,14 +82,27 @@ module.exports = class PRODUCT {
         })
     }
 
-    static getInfo(id){
+    // static getListProductSale(){
+    //     return new Promise(async resolve => {
+    //         try {
+    //             let listProducts = await PRODUCT_COLL.find({});
+                
+    //         } catch (error) {
+                
+    //         }
+    //     })
+    // }
+
+
+    static getInfo(productID){
         return new Promise(async resolve => {
             try {
-                let infoProduct = await (await PRODUCT_COLL.findById(id));
+                let infoProduct = await PRODUCT_COLL.findById(productID)
+                .populate('category');
                 if(!infoProduct){
                     return resolve({error: true, message:'not_found_product'});
                 }
-                return resolve({error: false, message:'get_info_success',data: infoProduct});
+                return resolve({error: false, message:'get_info_success', data: infoProduct});
             } catch (error) {
                 return resolve({error: true, message: error.message});
             }

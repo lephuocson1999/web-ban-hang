@@ -14,7 +14,11 @@ module.exports = class USER {
                 if (infoUser) {
                     return resolve({error: true, message: 'exist'})
                 }
-                let newUser = new USER_COLL({username, name, password, phone, age, sex});
+
+                let hashPass = await hash(password,8);
+                console.log({hashPass});
+
+                let newUser = new USER_COLL({username, name, password: hashPass, phone, age, sex});
                 let infoCategoryAfterInsert = await newUser.save();
                 if(!infoCategoryAfterInsert){
                     return resolve({error: true, message:'cannot_insert_user'});
@@ -82,7 +86,7 @@ module.exports = class USER {
     }
 
     static remove(id){
-        return new Promise(resolve => {
+        return new Promise(async resolve => {
             try {
                 let listUserForRemove = await USER_COLL.findByIdAndDelete(id);
                 return resolve({error: false, message:'remove_success'});
@@ -90,5 +94,34 @@ module.exports = class USER {
                 return resolve({ error: true, message: error.message });
             }
         })
+    }
+
+    static signIn(username, password){
+        return new Promise(async resolve => {
+            try {
+                let infoUser = await USER_COLL.findOne({username});
+
+                if(!infoUser){
+
+                    return resolve({ error: true, message: 'user_not_exist' });
+                }
+
+                let passwordInfo = infoUser.password
+
+                const checkPass = await compare(password, passwordInfo);
+                console.log({checkPass});
+
+                if(!checkPass){
+                    return resolve({ error: true, message: 'password_not_exist' });
+                }
+                await delete infoUser.password;
+                let token = await sign({data:infoUser});
+                console.log({token});
+                return resolve({ error: false, data: { infoUser, token } });
+
+            } catch (error) {
+                return resolve({ error: true, message: error.message });
+            }
+        });
     }
 }

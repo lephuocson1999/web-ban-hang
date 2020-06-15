@@ -28,5 +28,5 @@ var userSchema = new Schema({
     }
 });
 
-let USER_COLL  = mongoose.model('user',userSchema);
+let USER_COLL  = mongoose.model('user', userSchema);
 module.exports = USER_COLL;
