@@ -10,6 +10,9 @@ let cookieParser = require('cookie-parser');
 const CUSTOMER_ROUTE = require('./routes/customer');
 const CATEGORY_ROUTE = require('./routes/category');
 const PRODUCT_ROUTE = require('./routes/product');
+const USER_ROUTE = require('./routes/user');
+const DASHBOARD_ROUTE = require('./routes/dashboard');
+const PROMOTION_ROUTE = require('./routes//promotion');
 
 //MODEL
 
@@ -32,7 +35,10 @@ app.use(expressSession({
 
 app.use('/customers', CUSTOMER_ROUTE);
 app.use('/categorys', CATEGORY_ROUTE);
+app.use('/promotions', PROMOTION_ROUTE);
 app.use('/products', PRODUCT_ROUTE);
+app.use('/users', USER_ROUTE);
+app.use('/dashboards', DASHBOARD_ROUTE);
 // app.use('/',HOME_ROUTE);
 app.get('/',(req, res) => {
     res.json({message: 'connected'});

@@ -2,6 +2,7 @@ const jwt               = require('./jwt');
 const moment            = require('moment');
 const CATEGORY_MODEL        = require('../models/category');
 const PRODUCT_MODEL        = require('../models/product');
+const PROMOTION_MODEL        = require('../models/promotion');
 const CART_MODEL        = require('../models/cart');
 
 let renderToView = async function(req, res, view, data) {
@@ -24,6 +25,7 @@ let renderToView = async function(req, res, view, data) {
     let listProduct = await PRODUCT_MODEL.getList();
     let listProductAllCategories = await PRODUCT_MODEL.listProductAllCategories();
     let listCategory = await CATEGORY_MODEL.getList();
+    let listPromotion = await PROMOTION_MODEL.getList();
     // console.log(listCategory);
     // let listQuestion = await QUESTION_MODEL.getList();
     if(token) {
@@ -33,10 +35,12 @@ let renderToView = async function(req, res, view, data) {
         data.infoUser = undefined;
     }
     
+    
 
     data.moment         = moment;
     // data.listExam       = listExam.data;
     data.listProduct    = listProduct.data;
+    data.listPromotion    = listPromotion.data;
     data.listProductAllCategories  = listProductAllCategories.data;
     data.listCategory       = listCategory.data;
     // data.LEVEL_TYPES    = LEVEL_TYPES;

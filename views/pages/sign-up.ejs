@@ -61,6 +61,7 @@
 <%- include('../partials/footer.ejs') -%>
 <script>
     $(document).on('click','.btnSignUp', function(e){
+        e.preventDefault();
         let name = $('#name').val();
         let username = $('#username').val();
         let password = $('#password').val();
@@ -69,19 +70,21 @@
         if (!username || !password){
             toastr["warning"]("Moi ban nhap Username va Password", "Canh Bao");
         }
-
-        $.ajax({
+        else{
+            $.ajax({
             url:`/customers/dang-ky`,
             method: 'POST',
             data: {name, username, password},
             success: resp => {
                 if(!resp.error){
                     toastr["success"]("Bạn đã dang ky thành công", "Thành Công");
-                    return window.location.href=`/customers/dang-nhap`;
+                    // window.location.href= `/customers/dang-nhap`;
                 }else{
                     toastr["error"]("Bạn đã dang ky thật bại", "Thật Bại");
                 }
             }
         })
+        }
+        
     })
 </script>

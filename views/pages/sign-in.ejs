@@ -60,13 +60,14 @@
 <%- include('../partials/footer.ejs') -%>
 <script>
     $(document).on('click','.btnLogin', function(e){
+        e.preventDefault();
         let username = $('#username').val().trim();
         let password = $('#password').val().trim();
         console.log({username, password});
         if(!username || !password){
             toastr["warning"]("Moi ban nhap Username va Password", "Canh Bao");
-        }
-        $.ajax({
+        }else{
+            $.ajax({
             url: `/customers/dang-nhap`,
             method: 'POST',
             data: {username, password},
@@ -81,6 +82,6 @@
                 }
             }
         })
-        
+        }
     })
 </script>

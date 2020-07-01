@@ -35,17 +35,18 @@
                         <div class="cart-single-item">
                             <button type="button" class="close"><i class="flaticon-cross"></i></button>
                             <div class="product-img">
-                                <img src="/assets/img/shop/cart-1.png" alt="Product Image" />
+                                <img src="/img/<%= item.item.avatar %>" alt="Product Image" />
                             </div>
-                            <h6 class="product-name"><%= item.item.title %> (1kg)</h6>
+                            <h6 class="product-name " id="productName" value="<%= item.item.title %>" ><%= item.item.title %> (1kg)</h6>
                             <div class="number-input">
                                 <button class="minus"></button>
                                 <input class="quantity" min="1" name="quantity" value="<%= item.qty %>" type="number" />
                                 <button class="plus"></button>
                             </div>
-                            <h6 class="product-price"><%= item.item.salePrice %></h6>
+                            <h6 class="product-price"><%= item.item.price %></h6>
                             <h6 class="product-total-price"><%= item.price %></h6>
                         </div>
+                        
                             <%})%>
                         <%}%>
                         
@@ -68,9 +69,6 @@
                 <div class="cart-total-price p-50">
                     <h4 class="cart-heading">Order Summary</h4>
                     <% if (cart) {%>
-                        
-                        
-                        <% console.log(cart) %>
                     <div class="total-item-wrap">
                         <div class="total-item sub-total">
                             <span class="title">Total Item <%= cart.totalQty %></span>
@@ -107,15 +105,17 @@
 <script>
     $(document).on('click','.btnCheckOut', function(e){
         let id = $(this).attr('userID');
-        console.log({id});
+        let productName = document.getElementById('productName');
+
+        console.log({id, productName});
         if (!id){
             alert("Ban chua dang nhap, moi ban dang nhap de thanh toan");
             return window.location.href = '/customers/dang-nhap';
         }
-        // $.ajax({
-        //     url:`/customers/check-out`,
+        $.ajax({
+            url:`/customers/check-out`,
 
-        // })
+        })
     })
     
     

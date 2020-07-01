@@ -13,6 +13,7 @@ var userSchema = new Schema({
     password: String,
     phone: String,
     age: String,
+    email: String,
     sex:{
         type: Number,
         // 1: Nam

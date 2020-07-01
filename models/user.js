@@ -109,14 +109,14 @@ module.exports = class USER {
                 let passwordInfo = infoUser.password
 
                 const checkPass = await compare(password, passwordInfo);
-                console.log({checkPass});
+                // console.log({checkPass});
 
                 if(!checkPass){
                     return resolve({ error: true, message: 'password_not_exist' });
                 }
                 await delete infoUser.password;
                 let token = await sign({data:infoUser});
-                console.log({token});
+                // console.log({token});
                 return resolve({ error: false, data: { infoUser, token } });
 
             } catch (error) {

@@ -1,0 +1,95 @@
+<%- include('../../dashboards/partials/header.ejs') -%> 
+<%- include('../../dashboards/partials/side-bar.ejs') -%>
+
+<section id="main-content">
+    <section class="wrapper">
+<div class="row mt">
+    <div class="col-md-12">
+        <div class="content-panel">
+            <table class="table table-striped table-advance table-hover">
+                <h4><i class="fa fa-angle-right"></i>Danh Sách Danh Mục</h4>
+                <hr />
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th><i class="fa fa-bullhorn"></i> Title</th>
+                        <th class="hidden-phone"><i class="fa fa-question-circle"></i> content</th>
+                        <th><i class="fa fa-bookmark"></i> percent</th>
+                        <th><i class="fa fa-bookmark"></i> avatar</th>
+                        <th><i class="fa fa-edit"></i> Status</th> 
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(listPromotion && listPromotion.length){%> 
+                        <%listPromotion.forEach((item, index) => {%> 
+                    <tr>
+                        
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td>
+                                    <a href="basic_table.html#"><%= item.title %></a>
+                                </td>
+                                <td>
+                                    <a href="basic_table.html#"><%= item.content %></a>
+                                </td>
+                                <td>
+                                    <a href="basic_table.html#"><%= item.percent %></a>
+                                </td>
+                                <td>
+                                    <img src= "/img/<%= item.avatar %>" width="50px" height="50px">
+                                </td>
+                                <td>
+                                    <% if (item.status == 1){%>
+                                        <a href="basic_table.html#"> on </a>
+                                        <%}else{%>
+                                        off
+                                        <%} %>
+                                </td>
+                                <!-- <td>12000.00$</td> -->
+                                <!-- <td><span class="label label-info label-mini">Due</span></td> -->
+                                <td>
+                                    <!-- <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button> -->
+                                    <a href="/categorys/update-category/<%= item._id %>">
+                                        <button class="btn btn-primary btn-xs" ><i class="fa fa-pencil"></i></button>
+                                    </a>
+                                    <button  _categoryID = "<%= item._id %>" class="btn btn-danger btn-xs btnRemoveCategory"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            
+                        
+                    </tr>
+                        <%})%> 
+                    <%}  %> 
+                    
+                </tbody>
+            </table>
+        </div>
+        <!-- /content-panel -->
+    </div>
+    <!-- /col-md-12 -->
+</div>
+</section>
+</section>
+<%- include('../../dashboards/partials/footer.ejs') -%>
+
+<script>
+
+    $(document).on('click', '.btnRemoveCategory', function(e){
+        let id = $(this).attr('_categoryID');
+
+        $.ajax({
+            url: `/categorys/delete/${id}`,
+            method: 'GET',
+            success: resp => {
+                if(!resp.error){
+                    $(this).closest("tr").remove();
+                    toastr["success"]("Bạn xóa thành công", "Thành Công");
+                }else{
+                    toastr["error"]("Bạn không thể xóa, Mời bạn xóa lại", "Thất Bại");
+                }
+            }
+        })
+    })
+
+</script>

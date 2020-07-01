@@ -24,99 +24,93 @@
                             <h5><i class="flaticon-list"></i>Categories</h5>
                         </div>
                         <ul>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-apple"></i> Fruits and Vegetables</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-chicken-hand-drawn-outline"></i> Meat and Fish</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-pressure-washer"></i> Home and Cleaning</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-pest"></i> Pest Control</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-stationery"></i> Office Products</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-make-up"></i> Beauty Products</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-first-aid-kit"></i> Health Products</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-track"></i> Pet Care</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-sketch"></i> Home Appliances</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><i class="flaticon-baby-boy"></i> Baby Care</a>
-                            </li>
+                            <%if(listCategory.length){%>
+                                <%listCategory.forEach(item => {%>
+                                        <li><a href="/customers/danh-sach-san-pham?id=<%=item._id%>" _categoryId= "<%=item._id%>"  value="<%=item._id%>" class="filter-product-for-price-category"><i class="flaticon-apple "></i> <%=item.title%></a>
+                                        </li>
+                                    <%})%>
+                                <%}%>
                         </ul>
                     </div>
                     <div class="shop-widget b1">
                         <div class="shop-widget-title">
-                            <h5>Best Sale Today</h5>
+                           <h5>Best Sale</h5>
                         </div>
-                        <div class="product list-product d-flex align-items-center bg-white br-5 mb-30">
-                            <div class="product-img-wrap">
-                                <img src="/assets/img/shop/cart-1.png" alt="img" />
-                            </div>
-                            <div class="product-content-wrap">
-                                <div class="product-content">
-                                    <p>
-                                        <a href="shop-details.html">
-                                            Cauliflower <br />
-                                            (1kg)
-                                        </a>
-                                    </p>
+                        <% let arr = []; %>
+                         <% if (listProduct && listProduct.length){ %> 
+                             <% for(let i = 0; i < listProduct.length -1; i++){ %> 
+                                     <% if(listProduct[i].promotion) { %> 
+                                         <% arr.push(listProduct[i])%>
+                                     <%}%> 
+                             <%}%> 
+                             <% if(arr.length < 4){%>
+                                <% for(let i = 0; i < arr.length -1; i++){%>
+                                   <% for(let j = i +1; j < arr.length; j++){%>
+                                       <%if(arr[i].promotion.percent < arr[j].promotion.percent){%>
+                                           <%let swap = arr[i];%>
+                                           <%arr[i] = arr[j];%>
+                                           <%arr[j] = swap;%>
+                                           <%}%>
+                                       <%}%>
+                               <div class="product list-product d-flex align-items-center bg-white br-5 mb-30">
+                                   <div class="product-img-wrap">
+                                      <img src="/img/<%=arr[i].avatar %>" alt="img">
+                                   </div>
+                                   <div class="product-content-wrap">
+                                      <div class="product-content">
+                                         <p><a href="/customers/chi-tiet-san-pham?productID=<%= arr[i]._id %>"><%= arr[i].title %> <br>(1kg)</a>
+                                         </p>
+                                      </div>
+                                      <div class="product-action">
+                                         <a href="#" class="add-to-btn small-btn">
+                                            <i class="flaticon-shopping-cart"></i>
+                                            <span>Add to Cart</span>
+                                            <h5 class="product-price"><%if(arr[i].promotion){%> 
+                                              <%=arr[i].price - arr[i].price *arr[i].promotion.percent / 100 %>
+                                          <%}else{%> 
+                                              <%=arr[i].price%>
+                                          <%}%> </h5>
+                                         </a>
+                                      </div>
+                                   </div>
                                 </div>
-                                <div class="product-action">
-                                    <a href="#" class="add-to-btn small-btn">
-                                        <i class="flaticon-shopping-cart"></i>
-                                        <span>Add to Cart</span>
-                                        <h5 class="product-price">$120.00</h5>
-                                    </a>
+                              <%}%>
+                              <%}else{%>
+                                <% for(let i = 0; i < 4; i++){%>
+                                   <% for(let j = i +1; j < 5; j++){%>
+                                       <%if(arr[i].promotion.percent < arr[j].promotion.percent){%>
+                                           <%let swap = arr[i];%>
+                                           <%arr[i] = arr[j];%>
+                                           <%arr[j] = swap;%>
+                                           <%}%>
+                                       <%}%>
+                               <div class="product list-product d-flex align-items-center bg-white br-5 mb-30">
+                                   <div class="product-img-wrap">
+                                      <img src="/img/<%=arr[i].avatar %>" alt="img">
+                                   </div>
+                                   <div class="product-content-wrap">
+                                      <div class="product-content">
+                                         <p><a href="/customers/chi-tiet-san-pham?productID=<%= arr[i]._id %>"><%= arr[i].title %> <br>(1kg)</a>
+                                         </p>
+                                      </div>
+                                      <div class="product-action">
+                                         <a href="#" class="add-to-btn small-btn">
+                                            <i class="flaticon-shopping-cart"></i>
+                                            <span>Add to Cart</span>
+                                            <h5 class="product-price"><%if(arr[i].promotion){%> 
+                                              <%=arr[i].price - arr[i].price *arr[i].promotion.percent / 100 %>
+                                          <%}else{%> 
+                                              <%=arr[i].price%>
+                                          <%}%> </h5>
+                                         </a>
+                                      </div>
+                                   </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="product list-product d-flex align-items-center bg-white br-5 mb-30">
-                            <div class="product-img-wrap">
-                                <img src="/assets/img/shop/cart-2.png" alt="img" />
-                            </div>
-                            <div class="product-content-wrap">
-                                <div class="product-content">
-                                    <p><a href="shop-details.html">Organic Yellow Papaya (1ps)</a></p>
-                                </div>
-                                <div class="product-action">
-                                    <a href="#" class="add-to-btn small-btn">
-                                        <i class="flaticon-shopping-cart"></i>
-                                        <span>Add to Cart</span>
-                                        <h5 class="product-price">$120.00</h5>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product list-product d-flex align-items-center bg-white br-5 mb-30">
-                            <div class="product-img-wrap">
-                                <img src="/assets/img/shop/cart-3.png" alt="img" />
-                            </div>
-                            <div class="product-content-wrap">
-                                <div class="product-content">
-                                    <p><a href="shop-details.html">Granny Smith Apple (4ps)</a></p>
-                                </div>
-                                <div class="product-action">
-                                    <a href="#" class="add-to-btn small-btn">
-                                        <i class="flaticon-shopping-cart"></i>
-                                        <span>Add to Cart</span>
-                                        <h5 class="product-price">$120.00</h5>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                              <%}%>
+                              <%} %>
+                             
+                            <%}%>
+                     </div>
                     <div class="shop-widget widget-product b1">
                         <div class="special-offer-product bg-white p-25 br-5">
                             <div class="off">10%<span>off</span></div>
@@ -152,37 +146,37 @@
                             <div class="product-preview-wrap">
                                 <div class="tab-content bg-white p-50 b1 br-5">
                                     <div class="tab-pane" id="preview1">
-                                        <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+                                        <img src="/img/<%=infoProduct.avatar %>" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
                                     </div>
                                     <div class="tab-pane active" id="preview2">
-                                        <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+                                        <img src="/img/<%=infoProduct.avatar %>" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
                                     </div>
                                     <div class="tab-pane" id="preview3">
-                                        <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+                                        <img src="/img/<%=infoProduct.avatar %>" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
                                     </div>
                                     <div class="tab-pane" id="preview4">
-                                        <img src="/assets/img/product/product23.png" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
+                                        <img src="/img/<%=infoProduct.avatar %>" alt="Product Preview Image" data-magnify-src="/assets/img/product/product23.png" />
                                     </div>
                                 </div>
                                 <ul class="nav nav-tabs mt-30">
                                     <li>
                                         <a data-toggle="tab" href="#preview1">
-                                            <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+                                            <img src="/img/<%=infoProduct.avatar %>" alt="Product Thumbnail Image" />
                                         </a>
                                     </li>
                                     <li>
                                         <a class="active" data-toggle="tab" href="#preview2">
-                                            <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+                                            <img src="/img/<%=infoProduct.avatar %>" alt="Product Thumbnail Image" />
                                         </a>
                                     </li>
                                     <li>
                                         <a data-toggle="tab" href="#preview3">
-                                            <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+                                            <img src="/img/<%=infoProduct.avatar %>" alt="Product Thumbnail Image" />
                                         </a>
                                     </li>
                                     <li>
                                         <a data-toggle="tab" href="#preview4">
-                                            <img src="/assets/img/product/product23.png" alt="Product Thumbnail Image" />
+                                            <img src="/img/<%=infoProduct.avatar %>" alt="Product Thumbnail Image" />
                                         </a>
                                     </li>
                                 </ul>
@@ -206,9 +200,25 @@
                                     semper lorem at felis. Vestibulum volutpat.
                                 </p>
                                 <p>lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu.</p>
-                                <h6 class="stock">Availability: <span>In Stock</span></h6>
-                                <h4 class="price">$<%= infoProduct.salePrice  %></h4>
-                                <span class="actual-price has-discount">$<%= infoProduct.price  %></span>
+                                <h6 class="stock">Availability: 
+                                    <span>
+                                        <%if (infoProduct.amout > 0){%>
+                                            <%=infoProduct.amout%>
+                                        <%}else{%>
+                                            Hết hàng
+                                        <%}%>
+                                    </span>
+                                </h6>
+                                <h4 class="price">$<%if(infoProduct.promotion){%> 
+                                    <%=infoProduct.price - infoProduct.price *infoProduct.promotion.percent / 100 %>
+                                <%}else{%> 
+                                    <%=infoProduct.price%>
+                                <%}%></h4>
+                                <%if(infoProduct.promotion){%> 
+                                    <span class="actual-price has-discount">$<%= infoProduct.price  %></span>
+                                <%}else{%> 
+                                    Sản phẩm không có khuyến mãi
+                                <%}%>
                                 <div class="product-spinner mt-20">
                                     <div class="number-input b1">
                                         <button class="minus"></button>
@@ -224,7 +234,7 @@
                         </div>
                     </div>
 
-                    <div class="product-details-review bg-white mt-60 px-50 pt-20 pb-30 b1 br-5">
+                    <!-- <div class="product-details-review bg-white mt-60 px-50 pt-20 pb-30 b1 br-5">
                         <ul class="nav nav-tabs mb-20 mt-10">
                             <li><a href="#details" class="active" data-toggle="tab">Description</a></li>
                             <li><a href="#addi-info" data-toggle="tab" class="">Additional information</a></li>
@@ -333,7 +343,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="related-product mt-110 rmt-75">
                         <h3 class="mb-35">Related Product</h3>
@@ -343,7 +353,7 @@
                                     <div class="col-xl-4 col-md-6 col-md-4 mb-30">
                                         <div class="product">
                                             <div class="product-img-wrap">
-                                                <img src="/assets/img/product/product26.png" alt="img" />
+                                                <img src="/img/<%= item.avatar%>" alt="img" />
         
                                                 <button class="quick-view" type="button" data-toggle="modal" data-target="#quick-view">Quick View</button>
                                             </div>
@@ -366,83 +376,6 @@
                                     </div>
                                 <%})%>
                             <%}%>
-                            
-
-                            <div class="col-xl-4 col-md-6 col-md-4 mb-30">
-                                <div class="product">
-                                    <div class="product-img-wrap">
-                                        <img src="/assets/img/product/product27.png" alt="img" />
-
-                                        <button class="quick-view" type="button" data-toggle="modal" data-target="#quick-view">Quick View</button>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content">
-                                            <p><a href="shop-details.html">Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</a></p>
-                                        </div>
-                                        <div class="product-action">
-                                            <a href="#" class="add-to-btn small-btn">
-                                                <i class="flaticon-shopping-cart"></i>
-                                                <span>Add to Cart</span>
-                                                <h5 class="product-price">$120.00</h5>
-                                            </a>
-                                            <div class="add-wishlist">
-                                                <i class="fa fa-heart-o"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-md-6 col-md-4 mb-30">
-                                <div class="product">
-                                    <div class="product-img-wrap">
-                                        <img src="/assets/img/product/product28.png" alt="img" />
-
-                                        <button class="quick-view" type="button" data-toggle="modal" data-target="#quick-view">Quick View</button>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content">
-                                            <p><a href="shop-details.html">Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</a></p>
-                                        </div>
-                                        <div class="product-action">
-                                            <a href="#" class="add-to-btn small-btn">
-                                                <i class="flaticon-shopping-cart"></i>
-                                                <span>Add to Cart</span>
-                                                <h5 class="product-price">$120.00</h5>
-                                            </a>
-                                            <div class="add-wishlist">
-                                                <i class="fa fa-heart-o"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-md-6 col-md-4 mb-30">
-                                <div class="product">
-                                    <div class="product-img-wrap">
-                                        <img src="/assets/img/product/product29.png" alt="img" />
-
-                                        <button class="quick-view" type="button" data-toggle="modal" data-target="#quick-view">Quick View</button>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content">
-                                            <p><a href="shop-details.html">Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</a></p>
-                                        </div>
-                                        <div class="product-action">
-                                            <a href="#" class="add-to-btn small-btn">
-                                                <i class="flaticon-shopping-cart"></i>
-                                                <span>Add to Cart</span>
-                                                <h5 class="product-price">$120.00</h5>
-                                            </a>
-                                            <div class="add-wishlist">
-                                                <i class="fa fa-heart-o"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="modal product-modal fade" id="quick-view" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">

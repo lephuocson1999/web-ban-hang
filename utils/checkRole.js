@@ -3,9 +3,9 @@ module.exports = async function (req, res, next) {
     // let token = req.cookies['token'];
     let { token } = req.session;
     if (!token)
-        return res.redirect('/users/dang-nhap');
+        return res.redirect('/users/login');
     let checkRole = await verify(token);
-    if (checkRole.data.role !== 0 )
+    if (checkRole.data.role !== 1 )
         return res.redirect('/customers');
     next();
 }

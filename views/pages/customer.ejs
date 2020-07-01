@@ -1,34 +1,23 @@
 <%- include('../partials/header.ejs') -%>
 <section class="hero-section">
     <div class="hero-slider">
-        <div class="hero-slide-item" style="background-image: url(assets/img/hero/bg1.png);">
-            <div class="container">
-                <div class="hero-inner">
-                    <h1 class="mb-20 light">Order <span>Online</span>, Save <span>Your </span>Time</h1>
-                    <p class="mb-40 mr-120 light">
-                        Ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commo do
-                        consequat.
-                    </p>
-                    <div class="hero-btn">
-                        <a href="shop.html" class="theme-btn">Order Now</a>
+        <% if(listPromotion && listPromotion.length){%>
+            <%listPromotion.forEach(item => {%>
+                <div class="hero-slide-item" style="background-image: url(/img/<%=item.avatar%>);">
+                    <div class="container">
+                        <div class="hero-inner">
+                            <h1 class="mb-20 light"> <span><%= item.title %></span></h1>
+                            <p class="mb-40 mr-120 light">
+                                <%= item.content %>
+                            </p>
+                            <div class="hero-btn">
+                                <a href="shop.html" class="theme-btn">Xem thêm</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="hero-slide-item" style="background-image: url(assets/img/hero/bg3.png);">
-            <div class="container">
-                <div class="hero-inner">
-                    <h1 class="mb-20 light">World wide <span>free shipping</span></h1>
-                    <p class="mb-40 mr-120 light">
-                        Ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commo do
-                        consequat.
-                    </p>
-                    <div class="hero-btn">
-                        <a href="shop.html" class="theme-btn">Order Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <%})%>
+        <%} %>
     </div>
 </section>
 <section class="special-offer text-center pt-110 rpt-70 pb-35">
@@ -41,114 +30,55 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="special-offer-inner special-offer-slider">
-                    <%if (listProduct && listProduct.length){%> <%listProduct.forEach(item => {%>
-                    <div class="single-product">
-                        <div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-                            <div class="off"><%=100 - item.salePrice * 100 / item.price %> %<span>off</span></div>
-                            <div class="product-img-wrap">
-                                <img src="assets/img/product/product1.png" alt="img" />
-                            </div>
-                            <div class="product-content">
-                                <div class="offer-product-price">
-                                    <span class="discounted-price">$<%= item.salePrice %></span>
-                                    <span class="actual-price has-discount">$<%= item.price %></span>
-                                </div>
-                                <p><%= item.title%></p>
-                            </div>
-                            <div class="product-action">
-                                <a href="#" class="add-to-btn">Add to Cart</a>
-                                <div class="add-wishlist wish">
-                                    <i class="fa fa-heart-o"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <%})%> <%}%>
-
-                    <div class="single-product">
-                        <div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-                            <div class="off">10%<span>off</span></div>
-                            <div class="product-img-wrap">
-                                <img src="assets/img/product/product2.png" alt="img" />
-                            </div>
-                            <div class="product-content">
-                                <div class="offer-product-price">
-                                    <span class="discounted-price">$100.00</span>
-                                    <span class="actual-price has-discount">$120.00</span>
-                                </div>
-                                <p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
-                            </div>
-                            <div class="product-action">
-                                <a href="#" class="add-to-btn">Add to Cart</a>
-                                <div class="add-wishlist">
-                                    <i class="fa fa-heart-o"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="single-product">
-                        <div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-                            <div class="off">10%<span>off</span></div>
-                            <div class="product-img-wrap">
-                                <img src="assets/img/product/product3.png" alt="img" />
-                            </div>
-                            <div class="product-content">
-                                <div class="offer-product-price">
-                                    <span class="discounted-price">$100.00</span>
-                                    <span class="actual-price has-discount">$120.00</span>
-                                </div>
-                                <p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
-                            </div>
-                            <div class="product-action">
-                                <a href="#" class="add-to-btn">Add to Cart</a>
-                                <div class="add-wishlist">
-                                    <i class="fa fa-heart-o"></i>
+                    <% let arr = []; %>
+                    <% if (listProduct && listProduct.length){ %> 
+                        <% for(let i = 0; i < listProduct.length -1; i++){ %> 
+                                <% if(listProduct[i].promotion) { %> 
+                                    <% arr.push(listProduct[i])%>
+                                <%}%> 
+                        <%}%> 
+                        <% for(let i = 0; i < arr.length -1; i++){%>
+                            <% for(let j = i +1; j < arr.length; j++){%>
+                                <%if(arr[i].promotion.percent < arr[j].promotion.percent){%>
+                                    <%let swap = arr[i];%>
+                                    <%arr[i] = arr[j];%>
+                                    <%arr[j] = swap;%>
+                                    <%}%>
+                                <%}%>
+                            <div class="single-product">
+                                <div class="special-offer-product bg-white m-25 p-25 b1 br-5">
+                                    <div class="off">
+                                        <%if(arr[i].promotion){%> 
+                                            <%=arr[i].promotion.percent%>
+                                        <%}else{%> 
+                                            0
+                                        <%}%> 
+                                        %<span>off</span></div>
+                                    <div class="product-img-wrap">
+                                        <img src="/img/<%= arr[i].avatar%>" alt="img" />
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="offer-product-price">
+                                            <span class="discounted-price">$<%if(arr[i].promotion){%> 
+                                                <%=arr[i].price - arr[i].price *arr[i].promotion.percent / 100 %>
+                                            <%}else{%> 
+                                                <%=arr[i].price%>
+                                            <%}%> 
+                                            </span>
+                                            <span class="actual-price has-discount">$<%= arr[i].price %></span>
+                                        </div>
+                                        <p><%= arr[i].title%></p>
+                                    </div>
+                                    <div class="product-action">
+                                        <a _productIDToCart="<%= arr[i]._id %>" class="add-to-btn btnAddToCart">Add to Cart</a>
+                                        <div class="add-wishlist wish">
+                                            <i class="fa fa-heart-o"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="single-product">
-                        <div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-                            <div class="off">10%<span>off</span></div>
-                            <div class="product-img-wrap">
-                                <img src="assets/img/product/product4.png" alt="img" />
-                            </div>
-                            <div class="product-content">
-                                <div class="offer-product-price">
-                                    <span class="discounted-price">$100.00</span>
-                                    <span class="actual-price has-discount">$120.00</span>
-                                </div>
-                                <p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
-                            </div>
-                            <div class="product-action">
-                                <a href="#" class="add-to-btn">Add to Cart</a>
-                                <div class="add-wishlist">
-                                    <i class="fa fa-heart-o"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="single-product">
-                        <div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-                            <div class="off">10%<span>off</span></div>
-                            <div class="product-img-wrap">
-                                <img src="assets/img/product/product3.png" alt="img" />
-                            </div>
-                            <div class="product-content">
-                                <div class="offer-product-price">
-                                    <span class="discounted-price">$100.00</span>
-                                    <span class="actual-price has-discount">$120.00</span>
-                                </div>
-                                <p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
-                            </div>
-                            <div class="product-action">
-                                <a href="#" class="add-to-btn">Add to Cart</a>
-                                <div class="add-wishlist">
-                                    <i class="fa fa-heart-o"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            <%} %>
+                        <%}%>
                 </div>
             </div>
         </div>
@@ -197,7 +127,7 @@
             <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-30">
                 <a href="/customers/danh-sach-san-pham?id=<%=item._id%>" class="categori-item bg-white br-5">
                     <div class="categori-img d-flex align-items-center justify-content-center">
-                        <img src="/img/<%= item.avatar %>" alt="img" />
+                        <img src="assets/img/product/product3.png" alt="img" />
                     </div>
                     <div class="categori-name">
                         <span><%= item.title %></span>
@@ -362,25 +292,20 @@
             <%let product; %> 
             <%let productPush = [];%> 
             <%if(listProduct && listProduct.length){%> 
-                <%for(let i = 0; i < listProduct.length-1; i++){%> 
-                    <%for(let j = i +1 ; j < listProduct.length; j++){%> 
-                        <%if(listProduct[i].salePrice > listProduct[j].salePrice){%> 
-                            <%product = listProduct[i];%> 
-                            <%listProduct[i] = listProduct[j];%> 
-                            <%listProduct[j] = product;%> 
-                        <%}%> 
-                    <%}%>
+                <%listProduct.forEach(item => {%>
+
+                    
             <div class="custom-5-item col-xl-3 col-lg-4 col-md-6">
                 <div class="product">
                     <div class="product-img-wrap">
-                        <img src="assets/img/product/product20.png" alt="img" />
+                        <img src="/img/<%= item.avatar%>" alt="img" />
                         <button class="quick-view" type="button" data-toggle="modal" data-target="#quick-view">Quick View</button>
                     </div>
                     <div class="product-content-wrap">
                         <div class="product-content">
                             <p>
-                                <a href="/customers/danh-sach-san-pham?id=<%=listProduct[i].category%>&productID=<%=listProduct[i]._id%>">
-                                    <%=listProduct[i].title%> <br />
+                                <a href="/customers/chi-tiet-san-pham?productID=<%=item._id%>">
+                                    <%=item.title%> <br />
                                     (1 kg)
                                 </a>
                             </p>
@@ -389,23 +314,44 @@
                         <div class="product-action">
                             <% let cartPush = [] %>
                             <% if (cartArr) {%>
-                                <%cartArr.forEach(item => {%>
-                                        <%if(item.item._id == listProduct[i]._id ){%>
+                                <%cartArr.forEach(element => {%>
+                                        <%if(element.item._id.toString() == item._id.toString() ){%>
                                             <i class="flaticon-shopping-cart"></i>
                                             <span>Da Them</span>
-                                            <% cartPush.push(item) %>
-                                        <%}%>
+                                            <% cartPush.push(element) %>
+                                                <%}%>
                                     <%})%>
-                                    <a _productIDToCart="<%= listProduct[i]._id %>" class="add-to-btn small-btn btnAddToCart">
-                                        <i class="flaticon-shopping-cart"></i>
-                                        <span>Add to Cart</span>
-                                        <h5 class="product-price">170000</h5>
-                                    </a>
+                                    <% if(!cartPush.indexOf(item)) {%>
+                                        <% let a = cartPush.includes(item) %>
+                                        <a lengthCart="<%= cartArr.length %>" _productIDToCart="<%= item._id %>" class="add-to-btn small-btn btnAddToCart">
+                                            <i class="flaticon-shopping-cart"></i>
+                                            <span>Add to Cart</span>
+                                            <h5 class="product-price"><%if(item.promotion){%> 
+                                                <%=item.price - item.price *item.promotion.percent / 100 %>
+                                            <%}else{%> 
+                                                <%=item.price%>
+                                            <%}%> </h5>
+                                        </a>
+                                    <%}else{%>
+                                        <a lengthCart="<%= cartArr.length %>" _productIDToCart="<%= item._id %>" class="add-to-btn small-btn btnAddToCart">
+                                            <i class="flaticon-shopping-cart"></i>
+                                            <span>Add to Cart</span>
+                                            <h5 class="product-price"><%if(item.promotion){%> 
+                                                <%=item.price - item.price *item.promotion.percent / 100 %>
+                                            <%}else{%> 
+                                                <%=item.price%>
+                                            <%}%> </h5>
+                                        </a>
+                                        <%}%>
                                 <%}else{%>
-                                    <a _productIDToCart="<%= listProduct[i]._id %>" class="add-to-btn small-btn btnAddToCart">
+                                    <a lengthCart="1"  _productIDToCart="<%= item._id %>" class="add-to-btn small-btn btnAddToCart">
                                         <i class="flaticon-shopping-cart"></i>
                                         <span>Add to Cart</span>
-                                        <h5 class="product-price">170000</h5>
+                                        <h5 class="product-price"><%if(item.promotion){%> 
+                                            <%=item.price - item.price *item.promotion.percent / 100 %>
+                                        <%}else{%> 
+                                            <%=item.price%>
+                                        <%}%></h5>
                                     </a>
                                 <%}%>
                             
@@ -416,7 +362,7 @@
                     </div>
                 </div>
             </div>
-            <%}%> 
+            <%})%> 
             <%}%>
 
             <div class="blog-btn text-center w-100 mt-25 mb-30"><a href="shop.html" class="theme-btn br-30">Browse More</a></div>
@@ -646,7 +592,11 @@
 </section>
 <%- include('../partials/footer.ejs') -%>
 <script>
+
+    let arrNull = [];
     $(document).on("click", ".btnAddToCart", function (e) {
+        e.preventDefault();
+        arrNull.push('push');
         //session storage
         // let productID = $(this).attr("_productIDToCart");
 
@@ -680,16 +630,94 @@
             url: `/products/get-info-product-to-session?productID=${productID}`,
             method: "POST",
             success: (resp) => {
-                console.log(resp.data);
+                let result = resp.data;
+                console.log({result});
                 if (!resp.error) {
                     toastr["success"]("Bạn đã thêm vào giỏ hàng", "Thành Công");
                     // window.location.reload();
-                } else {
-                    toastr["error"]("Bạn không thể thêm vào giỏ hàng", "Thật Bại");
+                    $('.cartView').empty();
+                    
+
+                    $('#flaticon').addClass(
+                            `flaticon-after`
+                        )
+                        
+                    
+
+
+                    // var styleElem = document.head.appendChild(document.createElement("style"));
+
+                    // styleElem.innerHTML = `.menu-collections .cart>i:after {content: ${result.length};}`;
+                    // var style = document.querySelector('.menu-collections .cart>i').style;
+                    // style.setProperty('--content', `${result.length}`);
+
+                    if(result.length < 4){
+                        result.forEach((element, index) => {
+                            $('.cartView').append(`
+                                                    <div class="alert single-collection ">
+
+                                                        <button data-dismiss="alert"><i class="flaticon-delete-button"></i></button>
+                                                        <div class="collection-image">
+                                                            <img src="/img/${element.item.avatar}" alt="" />
+                                                        </div>
+                                                        <div class="collection-content">
+                                                            <p>
+                                                                ${element.item.title}
+                                                                
+                                                            </p>
+                                                            <h6>
+                                                                ${element.item.price}
+                                                            </h6>
+                                                        </div>
+                                                        </div>
+                                                        
+                        `)
+                        
+                    })
+                        $('.cartView').append(`
+                                                        <div class="collection-btn">
+                                                    <a href="/customers/cart" class="theme-btn bg-blue no-shadow mr-10">View Cart</a>
+                                                    <a href="/customers/cart" class="theme-btn ml-auto no-shadow">Checkout</a>
+                                                </div>
+                        `)
+                        
+                    }else{
+                        result.slice(0,4).forEach(element => {
+                            $('.cartView').append(`
+                                                    <div class="alert single-collection ">
+                                                        <button data-dismiss="alert"><i class="flaticon-delete-button"></i></button>
+                                                        <div class="collection-image">
+                                                            <img src="/img/${element.item.avatar}" alt="" />
+                                                        </div>
+                                                        <div class="collection-content">
+                                                            <p>
+                                                                ${element.item.title}
+                                                                
+                                                            </p>
+                                                            <h6>
+                                                                ${element.item.price}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    
+                        `)
+                    })
+                    $('.cartView').append(`
+                                <h6>
+                                                        ....To be continous
+                                                    </h6>
+                                                    <div class="collection-btn">
+                                                <a href="/customers/cart" class="theme-btn bg-blue no-shadow mr-10">View Cart</a>
+                                                <a href="/customers/cart" class="theme-btn ml-auto no-shadow">Checkout</a>
+                                            </div>
+                    `)
                 }
-            },
-        });
-    });
+            }else{
+                toastr["error"]("Bạn không thể thêm vào giỏ hàng", "Thật Bại");
+            }
+        }
+    })
+    })
     // window.onload = function () {
     //     //...
     //     // Retrieve user name
@@ -702,4 +730,26 @@
     //         document.getElementById("productIDSssss").innerHTML = "Hello!";
     //     }
     // };
+    console.log({arrNull});
+    // function changeLengthCart(buttonAddCart){
+    //     buttonAddCart.className ="menu-collections cart>i:after";
+    // }
+    
 </script>
+
+<style>
+    .flaticon-after[lengthCart]:after{
+        content: attr(lengthCart);
+        position:absolute;
+        height:17px;
+        width:17px;
+        color:#fff;
+        background:#5f66e0;
+        border-radius:50%;
+        right:-10px;
+        top:-10px;
+        font-size:12px;
+        line-height:16px;
+        text-align:center
+        }
+</style>

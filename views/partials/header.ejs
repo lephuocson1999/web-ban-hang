@@ -19,7 +19,7 @@
                     <div class="header-inner">
                         <div class="logo">
                             <a href="/customers">
-                                <img src="/assets/img/logo.png" alt="Main Logo" />
+                                <img style="border-radius: 100% ;" src="/img/logo_fresh_food.png" width="120px" height="80px" alt="Main Logo" />
                             </a>
                         </div>
                         <div class="categories">
@@ -34,7 +34,7 @@
                                     <a href="/customers/danh-sach-san-pham?id=<%=item._id%>"><i class="flaticon-apple"></i> <%=item.title%></a>
                                 </li>
                                 <%})%> <%}%>
-                                <li>
+                                <!-- <li>
                                     <a href="shop.html"><i class="flaticon-chicken-hand-drawn-outline"></i> Meat and Fish</a>
                                 </li>
                                 <li>
@@ -60,7 +60,7 @@
                                 </li>
                                 <li>
                                     <a href="shop.html"><i class="flaticon-baby-boy"></i> Baby Care</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                         <form action="#" class="menu-search">
@@ -68,7 +68,7 @@
                                 <%if(listCategory.length){%> <%listCategory.forEach(item => {%>
                                 <option name="category" value="<%=item._id%>"><%= item.title %></option>
                                 <%})%> <%}%>
-                                <option value="option-1">All Categories</option>
+                                <!-- <option value="option-1">All Categories</option>
                                 <option value="option-2">Fruits and Vegetables</option>
                                 <option value="option-3">Meat and Fish</option>
                                 <option value="option-4">Home and Cleaning</option>
@@ -78,7 +78,7 @@
                                 <option value="option-8">Health Products</option>
                                 <option value="option-9">Pet Care</option>
                                 <option value="option-10">Home Appliances</option>
-                                <option value="option-11">Baby Care</option>
+                                <option value="option-11">Baby Care</option> -->
                             </select>
                             <input name="search" id="search" type="text" placeholder="Search" required />
                             <button type="submit" class="btnSearchProduct">Search</button>
@@ -105,21 +105,26 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="collection-item cart">
-                                <i class="flaticon-shopping-cart"></i>
-                                <div class="collection-inner">
-                                        <% if(cartArr && cartArr.length ){%>
+                            <div class="collection-item cart ">
+                                <i id="flaticon" class="flaticon-shopping-cart" content="
+                                <% if(cartArr && cartArr.length ){%>
+                                    <%=cartArr.length %>
+                                <%}else{%>
+                                    0
+                                <%}%>
+                                "></i>
+                                <div class="collection-inner cartView">
+                                <% if(cartArr && cartArr.length ){%>
                                             <% if (cartArr.length > 4){%>
                                                 <%  for (let i = 0; i < 4 ; i++){%>
-                                                    <div class="alert single-collection">
+                                                    <div class="alert single-collection ">
                                                         <button data-dismiss="alert"><i class="flaticon-delete-button"></i></button>
                                                         <div class="collection-image">
-                                                            <img src="/assets/img/shop/cart-1.png" alt="" />
+                                                            <img src="/img/<%=cartArr[i].item.avatar%>" alt="" />
                                                         </div>
                                                         <div class="collection-content">
                                                             <p>
-                                                                <% console.log(cartArr[i])%>
-    
+                                                                
                                                                 <%= cartArr[i].item.title %>
                                                             
                                                                 <% if (cartArr[i].qty > 1){%> 
@@ -127,22 +132,21 @@
                                                                 <%}%> 
                                                             </p>
                                                             <h6>
-                                                                <%= cartArr[i].item.salePrice %>
+                                                                <%= cartArr[i].item.price %>
                                                             </h6>
                                                         </div>
-                                                        
                                                     </div>
                                                 <%} %>
                                                 <%}else{%>
                                                 <%for (let i = 0; i < cartArr.length ; i++){%>
-
-                                                <div class="alert single-collection">
+                                                <div class="alert single-collection ">
                                                     <button data-dismiss="alert"><i class="flaticon-delete-button"></i></button>
 												    <div class="collection-image">
-													    <img src="/assets/img/shop/cart-1.png" alt="" />
+													    <img src="/img/<%=cartArr[i].item.avatar%>" alt="" />
 												    </div>
 												    <div class="collection-content">
                                                         <p>
+                                                            
 
                                                             <%= cartArr[i].item.title %>
                                                         
@@ -151,7 +155,7 @@
                                                             <%}%> 
                                                         </p>
                                                         <h6>
-                                                            <%= cartArr[i].item.salePrice %>
+                                                            <%= cartArr[i].item.price %>
                                                         </h6>
                                                     </div>
                                                 </div>
@@ -164,20 +168,31 @@
                                                 <a href="/customers/cart" class="theme-btn bg-blue no-shadow mr-10">View Cart</a>
                                                 <a href="/customers/cart" class="theme-btn ml-auto no-shadow">Checkout</a>
                                             </div>
-                                        <%}else{%>
-                                            <h6> Hieenj chua cos san phaamr </h6>
-                                                <%} %>
+                                            <%}else{%>
+                                                <h6> Hiện chưa có sản phẩm trong giỏ hàng </h6>
+                                                    <%} %>
                                     
                                 </div>
+                                
                             </div>
                             <div class="collection-item profile">
                                 <i class="flaticon-user-1"></i>
                                 <div class="collection-inner">
                                     <ul>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
-                                        <li><a href="sign-in.html">Login</a></li>
-                                        <li><a href="sign-up.html">Sign Up</a></li>
+                                        <% if (infoUser){%>
+                                            <li>
+                                                <a href="cart.html">
+                                                    Hello <%=infoUser.name %>
+                                                </a>
+                                            </li>
+                                            <hr>
+                                        <%}%>
+                                        
+                                        <li><a href="/customers/cart">Cart</a></li>
+                                        <li><a href="/customers/cart">Checkout</a></li>
+                                        <li><a href="/customers/dang-nhap">Login</a></li>
+                                        <li><a href="/customers/dang-ky">Sign Up</a></li>
+                                        <li><a href="/customers/dang-xuat">Log out</a></li>
                                     </ul>
                                 </div>
                             </div>
