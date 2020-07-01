@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"webbanhang.promotions"}],"uuid":"0dc62c1cb3004121ab217b72b2459c31"}
