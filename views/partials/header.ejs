@@ -19,7 +19,7 @@
                     <div class="header-inner">
                         <div class="logo">
                             <a href="/customers">
-                                <img style="border-radius: 100% ;" src="/img/logo_fresh_food.png" width="120px" height="80px" alt="Main Logo" />
+                                <img style="border-radius: 100% ;" src="/img/logo_fresh_food2.png" width="80px" height="80px" alt="Main Logo" />
                             </a>
                         </div>
                         <div class="categories">
@@ -84,7 +84,7 @@
                             <button type="submit" class="btnSearchProduct">Search</button>
                         </form>
                         <div class="menu-collections">
-                            <div class="collection-item watch">
+                            <!-- <div class="collection-item watch">
                                 <i class="flaticon-heart"></i>
                                 <div class="collection-inner">
                                     
@@ -104,9 +104,10 @@
                                         <a href="cart.html" class="theme-btn bg-blue no-shadow mx-auto">Add to Cart</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="collection-item cart ">
-                                <i id="flaticon" class="flaticon-shopping-cart" content="
+                                
+                                <i id="flaticon" class="flaticon-shopping-cart aaaa" content="
                                 <% if(cartArr && cartArr.length ){%>
                                     <%=cartArr.length %>
                                 <%}else{%>
@@ -166,13 +167,37 @@
                                             <%}%>
                                             <div class="collection-btn">
                                                 <a href="/customers/cart" class="theme-btn bg-blue no-shadow mr-10">View Cart</a>
-                                                <a href="/customers/cart" class="theme-btn ml-auto no-shadow">Checkout</a>
+                                                <!-- <a href="/customers/checkout" class="theme-btn ml-auto no-shadow btnCheckOutHeader">Checkout</a> -->
                                             </div>
                                             <%}else{%>
                                                 <h6> Hiện chưa có sản phẩm trong giỏ hàng </h6>
                                                     <%} %>
                                     
                                 </div>
+                                <script>
+                                    $(document).on('click','.btnCheckOutHeader', function(e){
+                                        let id = $(this).attr('userID');
+                                        let productName = document.getElementById('productName');
+                                
+                                        console.log({id, productName});
+                                        if (!id){
+                                            alert("Ban chua dang nhap, moi ban dang nhap de thanh toan");
+                                            return window.location.href = '/customers/dang-nhap';
+                                        }else{
+                                            $.ajax({
+                                                url:`/customers/checkout`,
+                                                method: 'GET',
+                                                success: resp=> {
+                                                    if(!resp.error){
+                                                        return window.location.href = '/customers/checkout';
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    })
+                                    
+                                    
+                                </script>
                                 
                             </div>
                             <div class="collection-item profile">

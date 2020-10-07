@@ -1,3 +1,4 @@
+
 module.exports = function Cart(oldCart) {
     this.items= oldCart.items || {};
     this.totalQty = oldCart.totalQty || 0;
@@ -27,14 +28,10 @@ module.exports = function Cart(oldCart) {
         return arr; 
     }
 
-    this.remove = function(arr, id){
-        // let arr = this.generateArray();
-        arr.forEach((element, index) => {
-            if(element.item._id == id){
-                element.splice(index, 1);
-            }
-        })
-        return arr;
+    this.removeItem = function(id){
+        this.totalQty -= this.items[id].qty;
+        this.totalPrice -=this.items[id].item.price;
+        delete this.items[id]
     }
 
 };

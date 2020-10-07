@@ -133,17 +133,17 @@
                                 <span class="price" ><%= item.price %></span>
                             </div>
                         <%})%>
-                            <div class="total-item">
+                            <!-- <div class="total-item">
                                 <span class="title">Shipping Cost</span>
                                 <span class="price">10</span>
                             </div>
                             <div class="total-item discount">
                                 <span class="title">Discount</span>
                                 <span class="price">0</span>
-                            </div>
+                            </div> -->
                             <div class="total-item total">
                                 <span class="title">Total</span>
-                                <span class="price" id="totalPrice" value="<%= cart.totalPrice %>"><%= cart.totalPrice %></span>
+                                <span class="price" id="totalPrice" _priceTotal="<%=cart.totalPrice %>"><%= cart.totalPrice %></span>
                             </div>
                         </div>
                     <%}%>
@@ -152,10 +152,10 @@
                     </div>
                     <ul id="accordionExample" class="mb-40">
                         <li class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="methodone" name="defaultExampleRadios" checked />
-                            <label class="custom-control-label" for="methodone" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">Direct Bank Transfer</label>
-                            <div id="collapseOne" class="collapse show" data-parent="#accordionExample" style="">
-                                <p>Lorem ipsum dolor sit amet, con se ctetur adipiscing elit. In sagittis eg esta ante, sed viverra nunc tinci dunt nec elei fend et tiram.</p>
+                            <input type="radio" class="custom-control-input" value="1" id="methodone" name="defaultExampleRadios" checked />
+                            <label class="custom-control-label" for="methodone" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">Chuyển khoản qua ngân hàng</label>
+                            <div id="collapseOne" class="collapse show" value="2" data-parent="#accordionExample" style="">
+                                <p>STK: đố em biết anh đang nghĩ gì</p>
                             </div>
                         </li>
 
@@ -182,9 +182,9 @@
 
                         <li class="custom-control custom-radio">
                             <input type="radio" class="custom-control-input" id="methodthree" name="defaultExampleRadios" />
-                            <label class="custom-control-label collapsed" for="methodthree" data-toggle="collapse" data-target="#collapsethree" aria-controls="collapsethree">Cash On Delivery</label>
+                            <label class="custom-control-label collapsed" for="methodthree" data-toggle="collapse" data-target="#collapsethree" aria-controls="collapsethree">Thanh toán sau khi nhận hàng</label>
                             <div id="collapsethree" class="collapse" data-parent="#accordionExample" style="">
-                                <p>Lorem ipsum dolor sit amet, con se ctetur adipiscing elit. In sagittis eg esta ante, sed viverra nunc tinci dunt nec elei fend et tiram.</p>
+                                <p>Bạn không được phép mở hàng trước khi thanh toán</p>
                             </div>
                         </li>
                     </ul>
@@ -206,26 +206,47 @@
         let address = $('#address').val();
         let note = $('#note').val();
         let sex;
-        var checkbox = document.getElementsByName("sex");
-        var totalPrice = document.getElementById("totalPrice").value;
+        let pay;
+        let methodone = document.getElementById("methodone");
+        let methodthree = document.getElementById("methodthree");
+        let total = $('#totalPrice').attr('_priceTotal');
+        let checkbox = document.getElementsByName("sex");
+
+
 
         for (var i = 0; i < checkbox.length; i++){
             if (checkbox[i].checked === true){
                 sex = checkbox[i].value;
             }
         }
-        console.log({name, phone, email, address, sex ,note, totalPrice});
-        
-        // $.ajax({
-        //     url:'/customers/checkout',
-        //     method: 'POST',
-        //     data:{
-        //         name, phone, email, address, sex ,note
-        //     },
-        //     success: resp =>{
+        if(methodone.checked === true){
+            pay = "Thanh toán bằng chuyển khoản"
+        }else if(methodthree.checked === true){
+            pay = "Thanh toán sau khi vận chuyển"
+        }
+        console.log({name, phone, email, address, sex ,note, total, pay});
+        if(!address || !phone|| !name|| !email){
+            toastr["warning"]("Mời bạn nhập đầy đủ thông tin", "Cảnh Báo");
+        }else{
+            $.ajax({
+            url:'/customers/checkout',
+            method: 'POST',
+            data:{
+                name, phone, email, address, sex ,note, total, pay
+            },
+            success: resp =>{
+                if(!resp.error){
+                    toastr["success"]("Bạn đã thanh toán, mời bạn chờ nhận hàng", "Thành Công");
+                }else{
+                    toastr["error"]("Bạn không thể thanh toán, Mời bạn thêm lại", "Thất Bại");
+                }
+                
+            }
+        })
+        }
 
-        //     }
-        // })
+    
+        
 
     })
 

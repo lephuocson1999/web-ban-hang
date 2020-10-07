@@ -13,6 +13,7 @@ const { uploadMulter} = require('../utils/config_multer');
 const path          = require('path');
 const fs            = require('fs');
 const ROLE_ADMIN = require('../utils/checkRole');
+let {CF_ROUTINGS} = require('../constant/core/base_api')
 let ObjectID = require('mongoose').Types.ObjectId;
 
 route.get('/add-product',ROLE_ADMIN, async (req, res) => {
@@ -22,10 +23,10 @@ route.get('/add-product',ROLE_ADMIN, async (req, res) => {
 route.post('/them-san-pham' ,uploadMulter.single('avatar') ,async (req, res) => {
     let {title, price, amout , gallery, category, tag, promotion, status} = req.body;
     let infoFile = req.file;
-    console.log({title, price, amout , gallery, category, tag, promotion, status});
+    // console.log({title, price, amout , gallery, category, tag, promotion, status});
 
     let infoProduct = await PRODUCT_MODEL.insert({title, price, amout ,avatar: infoFile.originalname, gallery, category, tag, promotion, status});
-    console.log(infoProduct);
+    // console.log(infoProduct);
 
     if(infoProduct.error){
         return res.json(infoProduct);
@@ -39,11 +40,10 @@ route.get('/list',ROLE_ADMIN ,async (req,res) => {
 
 route.post('/delete/:id', async (req, res) => {
     let {id} = req.params;
-    console.log({id});
+    // console.log({id});
 
     let {categoryId, promotionId} = req.body;
-    console.log({categoryId, promotionId});
-
+    // console.log({categoryId, promotionId});
 
     let infoProduct = await PRODUCT_MODEL.remove(id, categoryId, promotionId);
     res.json({infoProduct})
@@ -65,14 +65,16 @@ route.post('/get-info-product-to-session', async(req, res) => {
         // res.json({product})
         return res.json({error: false, data: cart.generateArray()});
     })
-    
+})
 
-    // let infoProduct = await PRODUCT_MODEL.getInfo(productID);
-    // let productArr = [];
-    // productArr.push(infoProduct.data);
-    // req.session.infoProduct = idArr;
-    // console.log({productArr});
-    // renderToView(req, res, 'pages/customer', {productArr})
+route.get('/remove-cart/:id', async (req, res) => {
+    let {id} = req.params;
+    let cart = new CART_MODEL(req.session.cart ? req.session.cart: {});
+    // console.log({cart});
+    
+    cart.removeItem(id);
+    req.session.cart = cart;
+    res.json({data: cart.generateArray()})
 })
 
 route.post('/search-price',async (req, res) => {
@@ -91,7 +93,6 @@ route.post('/search-price',async (req, res) => {
         listProduct = await PRODUCT_MODEL.getListForPrice(startPrice, endPrice);
     }
     // console.log({listProduct});
-    
     res.json({listProduct: listProduct.data});
 })
 
@@ -107,21 +108,18 @@ route.post('/filter-promotion',async (req, res) => {
         listProduct = await PRODUCT_MODEL.getListProductWithPromotion(id);
     }
     // console.log({listProduct});
-    
     res.json({listProduct: listProduct.data});
 })
 
 route.post('/search-price-with-category/:id',async (req, res) => {
-    
     let {id} = req.query;
 
     let {startPrice, endPrice} = req.body;
-    console.log(startPrice, endPrice, id);
+    // console.log(startPrice, endPrice, id);
     
     let listProduct = await PRODUCT_MODEL.getListForPrice(startPrice, endPrice);
-    console.log({listProduct});
+    // console.log({listProduct});
     res.json({listProduct: listProduct.data});
-
 })
 
 route.post('/delete-cart', async(req, res) => {
@@ -131,7 +129,6 @@ route.post('/delete-cart', async(req, res) => {
     let cartArr = cart.generateArray();
 
     cart.remove(cartArr, productID);
-    
     // await PRODUCT_COLL.findById(productID, function(err, product){
     //     if(err){
     //         return res.json({error: true});

@@ -97,7 +97,7 @@ module.exports = class PROMOTION {
     static update({id, title, description, price, salePrice ,avatar, gallery, category}) {
         return new Promise(async resolve => {
             try {
-                console.log({id, title, description, price, salePrice ,avatar, gallery, category});
+                // console.log({id, title, description, price, salePrice ,avatar, gallery, category});
                 
                 if(!ObjectID.isValid(id)){
                     return resolve({error: true, message:'params_invalid'});
@@ -108,7 +108,7 @@ module.exports = class PROMOTION {
                 ,{
                     new: true
                 });
-                console.log({listProduct});
+                // console.log({listProduct});
                 
                 if(!listProduct){
                     return resolve({error: true, message:'cannot_update_list'});

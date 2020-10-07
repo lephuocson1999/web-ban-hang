@@ -350,6 +350,8 @@
                         <div class="row">
                             <% if (infoCategory) {%>
                                 <%infoCategory.products.forEach( item => {%>
+                                    <% if (item._id.toString() !== infoProduct._id.toString()){%>
+
                                     <div class="col-xl-4 col-md-6 col-md-4 mb-30">
                                         <div class="product">
                                             <div class="product-img-wrap">
@@ -359,7 +361,7 @@
                                             </div>
                                             <div class="product-content-wrap">
                                                 <div class="product-content">
-                                                    <p><a href="shop-details.html"><%= item.title %> (1 Bag 5 kg)</a></p>
+                                                    <p><a href="/customers/chi-tiet-san-pham?productID=<%=item._id%>"><%= item.title %> (1 Bag 5 kg)</a></p>
                                                 </div>
                                                 <div class="product-action">
                                                     <a href="#" class="add-to-btn small-btn">
@@ -374,6 +376,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <%}%>
+
                                 <%})%>
                             <%}%>
                             <div class="modal product-modal fade" id="quick-view" tabindex="-1" role="dialog" aria-hidden="true">

@@ -4,6 +4,7 @@ const CATEGORY_MODEL        = require('../models/category');
 const PRODUCT_MODEL        = require('../models/product');
 const PROMOTION_MODEL        = require('../models/promotion');
 const CART_MODEL        = require('../models/cart');
+const ORDER_MODEL        = require('../models/order');
 
 let renderToView = async function(req, res, view, data) {
     let { token } = req.session;
@@ -20,9 +21,10 @@ let renderToView = async function(req, res, view, data) {
         data.cart = cart;
     }
     
-
     //let listProductOneCategory = await PRODUCT_MODEL.listProductOneCategory();
     let listProduct = await PRODUCT_MODEL.getList();
+    let listOrder = await ORDER_MODEL.getList();
+    let listOrderWithPrice = await ORDER_MODEL.getListWithPrice();
     let listProductAllCategories = await PRODUCT_MODEL.listProductAllCategories();
     let listCategory = await CATEGORY_MODEL.getList();
     let listPromotion = await PROMOTION_MODEL.getList();
@@ -34,12 +36,11 @@ let renderToView = async function(req, res, view, data) {
     } else {
         data.infoUser = undefined;
     }
-    
-    
 
     data.moment         = moment;
     // data.listExam       = listExam.data;
     data.listProduct    = listProduct.data;
+    data.listOrder    = listOrder.data;
     data.listPromotion    = listPromotion.data;
     data.listProductAllCategories  = listProductAllCategories.data;
     data.listCategory       = listCategory.data;

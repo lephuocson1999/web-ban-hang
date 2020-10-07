@@ -12,10 +12,10 @@ var orderSchema = new Schema({
     address: String,
     time: String,
     note: String,
+    pay: String,
     user: {
         type: Schema.Types.ObjectId,
         ref: 'user',
-        default: []
     },
     status: Number
 });

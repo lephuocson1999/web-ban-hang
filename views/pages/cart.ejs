@@ -33,7 +33,9 @@
                         <% if( cartArr && cartArr.length  ) {%>
                             <%cartArr.forEach(item => {%>
                         <div class="cart-single-item">
-                            <button type="button" class="close"><i class="flaticon-cross"></i></button>
+                            <button _productID="<%=item.item._id%>" type="button" class="close btnDeleteCart">
+                                <i class="flaticon-cross"></i>
+                            </button>
                             <div class="product-img">
                                 <img src="/img/<%= item.item.avatar %>" alt="Product Image" />
                             </div>
@@ -74,10 +76,10 @@
                             <span class="title">Total Item <%= cart.totalQty %></span>
                             <span class="price"><%= cart.totalPrice %></span>
                         </div>
-                        <div class="total-item shipping">
+                        <!-- <div class="total-item shipping">
                             <span class="title">Shipping Cost</span>
                             <span class="price">10</span>
-                        </div>
+                        </div> -->
                         <form action="#" class="d-lg-block">
                             <h6 class="mb-25 mt-30">Promo Code</h6>
                             <input class="w-100 br-5" type="text" placeholder="Enter Discount Code" />
@@ -111,12 +113,99 @@
         if (!id){
             alert("Ban chua dang nhap, moi ban dang nhap de thanh toan");
             return window.location.href = '/customers/dang-nhap';
+        }else{
+            $.ajax({
+                url:`/customers/checkout`,
+                method: 'GET',
+                success: resp=> {
+                    if(!resp.error){
+                        return window.location.href = '/customers/checkout';
+                    }
+                }
+            })
         }
-        $.ajax({
-            url:`/customers/check-out`,
-
-        })
     })
-    
+    $(document).on('click', '.btnDeleteCart', function(e){
+        let id = $(this).attr('_productID');
+        console.log({id});
+
+        $.ajax({
+            url: `/products/remove-cart/${id}`,
+            method: 'GET',
+            success: resp => {
+                let result = resp.data;
+                if(!resp.error){
+                    $(this).closest(".cart-single-item").remove();
+                    toastr["success"]("Bạn xóa thành công", "Thành Công");
+                    $('.cartView').empty();
+                    if(result.length < 4){
+                        result.forEach((element, index) => {
+                            $('.cartView').append(`
+                                                    <div class="alert single-collection ">
+
+                                                        <button data-dismiss="alert"><i class="flaticon-delete-button"></i></button>
+                                                        <div class="collection-image">
+                                                            <img src="/img/${element.item.avatar}" alt="" />
+                                                        </div>
+                                                        <div class="collection-content">
+                                                            <p>
+                                                                ${element.item.title}
+                                                                
+                                                            </p>
+                                                            <h6>
+                                                                ${element.item.price}
+                                                            </h6>
+                                                        </div>
+                                                        </div>
+                                                        
+                        `)
+                        
+                    })
+                        $('.cartView').append(`
+                                                        <div class="collection-btn">
+                                                    <a href="/customers/cart" class="theme-btn bg-blue no-shadow mr-10">View Cart</a>
+
+                                                </div>
+                        `)
+                        
+                    }else{
+                        result.slice(0,4).forEach(element => {
+                            $('.cartView').append(`
+                                                    <div class="alert single-collection ">
+                                                        <button data-dismiss="alert"><i class="flaticon-delete-button"></i></button>
+                                                        <div class="collection-image">
+                                                            <img src="/img/${element.item.avatar}" alt="" />
+                                                        </div>
+                                                        <div class="collection-content">
+                                                            <p>
+                                                                ${element.item.title}
+                                                                
+                                                            </p>
+                                                            <h6>
+                                                                ${element.item.price}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    
+                        `)
+                    })
+                    $('.cartView').append(`
+                                <h6>
+                                                        ....To be continous
+                                                    </h6>
+                                                    <div class="collection-btn">
+                                                <a href="/customers/cart" class="theme-btn bg-blue no-shadow mr-10">View Cart</a>
+                                                
+
+                                            </div>
+                    `)
+                    }
+                }else{
+                    toastr["error"]("Bạn không thể xóa, Mời bạn xóa lại", "Thất Bại");
+                }
+            }
+        })
+        
+    })
     
 </script>

@@ -9,7 +9,7 @@ module.exports = class CATEGORY {
     static insert(title, description){
         return new Promise(async resolve => {
             try {
-                console.log({title, description});
+                // console.log({title, description});
                 
                 let infoCategory = await CATEGORY_COLL.findOne({title});
                 if (infoCategory) {
@@ -156,7 +156,7 @@ module.exports = class CATEGORY {
                 let { _id: categoryID, products: productID } = infoCategory;
                 // let productID = [] ;
                 // productID = listCategoryForRemove.products;
-                console.log({productID, categoryID});
+                // console.log({productID, categoryID});
                 
 
                 // let infoProductAfterUpdate = await PRODUCT_COLL.findByIdAndDelete(category, {

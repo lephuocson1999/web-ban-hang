@@ -302,7 +302,7 @@ module.exports = class PRODUCT {
         return new Promise(async resolve => {
             try {
                 let listProducts = await PRODUCT_COLL.findOne({category: id}).populate('category');;
-                console.log({listProducts});
+                // console.log({listProducts});
                 if (!listProducts){
                     return resolve({error: true, message: 'products'});
                 }
@@ -343,7 +343,7 @@ module.exports = class PRODUCT {
     static update({id, title, description, price, salePrice ,avatar, gallery, category}) {
         return new Promise(async resolve => {
             try {
-                console.log({id, title, description, price, salePrice ,avatar, gallery, category});
+                // console.log({id, title, description, price, salePrice ,avatar, gallery, category});
                 
                 if(!ObjectID.isValid(id)){
                     return resolve({error: true, message:'params_invalid'});
@@ -354,7 +354,7 @@ module.exports = class PRODUCT {
                 ,{
                     new: true
                 });
-                console.log({listProduct});
+                // console.log({listProduct});
                 
                 if(!listProduct){
                     return resolve({error: true, message:'cannot_update_list'});
@@ -386,7 +386,7 @@ module.exports = class PRODUCT {
                             products: id
                         }
                     })
-                    console.log(listPromotionForRemove);
+                    // console.log(listPromotionForRemove);
                 }
                 
                 return resolve({error: false, message:'remove_success'});

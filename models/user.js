@@ -57,21 +57,19 @@ module.exports = class USER {
             }
         })
     }
-    static update({id, username, name, password, phone, age, sex}) {
+    static update({id, name, phone, email, sex}) {
         return new Promise(async resolve => {
             try {
-                console.log({id, title, description, price, avatar, gallery, category});
                 
                 if(!ObjectID.isValid(id)){
                     return resolve({error: true, message:'params_invalid'});
                 }
                 let listUser = await USER_COLL.findByIdAndUpdate(id,{
-                    username, name, password, phone, age, sex
+                    name, phone, email, sex
                 }
                 ,{
                     new: true
                 });
-                console.log({listUser});
                 
                 if(!listUser){
                     return resolve({error: true, message:'cannot_update_list'});
