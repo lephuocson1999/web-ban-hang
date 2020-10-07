@@ -67,27 +67,27 @@ module.exports = class ORDER {
                 // arrOrder.forEach(async item =>{
                 //         // console.log({item});
                 listOrders = await ORDER_COLL.aggregate([{
-                                $unwind: {
-                                        path: "$products",
-                                        includeArrayIndex: "arrayIndex"
-                                }
-                                },
-                                {  
-                                    $group: {
-                                        _id: "$products",
-                                        total: {
-                                            $sum: 1
-                                        }
-                                    }
-                                },
-                                {
-                                    $sort: {
-                                        total: -1
-                                    }
-                                },
-                                {
-                                    $limit : 5 
-                                }
+                        $unwind: {
+                                path: "$products",
+                                includeArrayIndex: "arrayIndex"
+                        }
+                    },
+                    {  
+                        $group: {
+                            _id: "$products",
+                            total: {
+                                $sum: 1
+                            }
+                        }
+                    },
+                    {
+                        $sort: {
+                            total: -1
+                        }
+                    },
+                    {
+                        $limit : 5 
+                    }
                 ])
                 // })
                 // console.log({listOrders});
